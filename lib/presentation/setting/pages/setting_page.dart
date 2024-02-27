@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_posresto_app_rudisupratman/presentation/setting/pages/discount_page.dart';
+import 'package:flutter_posresto_app_rudisupratman/presentation/setting/pages/sync_data_page.dart';
 import 'package:flutter_posresto_app_rudisupratman/presentation/setting/pages/tax_page.dart';
 
 import '../../../../core/core.dart';
@@ -96,7 +97,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   index: currentIndex,
                   children: const [
                     DisccountPage(),
-                    Text('printer'),
+                    SyncDataPage(),
                     TaxPage(),
                     // ManageDiscount(),
                     // ManagePrinterPage(),

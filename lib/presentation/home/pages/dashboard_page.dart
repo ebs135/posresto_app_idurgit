@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posresto_app_rudisupratman/core/core.dart';
 import 'package:flutter_posresto_app_rudisupratman/presentation/setting/pages/setting_page.dart';
+import 'package:flutter_posresto_app_rudisupratman/presentation/setting/pages/sync_data_page.dart';
 
 import '../../../data/datasources/auth_local_datasource.dart';
 import '../../auth/bloc/logout/logout_bloc.dart';

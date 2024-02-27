@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_posresto_app_rudisupratman/presentation/home/bloc/checkout/checkout_bloc.dart';
 
 import '../../../../core/core.dart';
 import '../../setting/bloc/discount/discount_bloc.dart';
@@ -14,9 +15,12 @@ class DiscountDialog extends StatefulWidget {
 class _DiscountDialogState extends State<DiscountDialog> {
   @override
   void initState() {
-    // TODO: implement initState
+    context.read<DiscountBloc>().add(const DiscountEvent.getDiscounts());
     super.initState();
   }
+
+  int discountIdSelected = 0;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -34,7 +38,9 @@ class _DiscountDialogState extends State<DiscountDialog> {
           Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: () => context.pop(),
+              onPressed: () {
+                context.pop();
+              },
               icon: const Icon(
                 Icons.cancel,
                 color: AppColors.primary,
@@ -57,17 +63,26 @@ class _DiscountDialogState extends State<DiscountDialog> {
                 mainAxisSize: MainAxisSize.min,
                 children: discounts
                     .map(
-                      (discounts) => ListTile(
-                        title: Text('Nama Diskon: ${discounts.name}'),
-                        subtitle: Text('Potongan harga (${discounts.value}%)'),
+                      (discount) => ListTile(
+                        title: Text('Nama Diskon: ${discount.name}'),
+                        subtitle: Text('Potongan harga (${discount.value}%)'),
                         contentPadding: EdgeInsets.zero,
                         textColor: AppColors.primary,
                         trailing: Checkbox(
-                          value: false,
-                          onChanged: (value) {},
+                          value: discount.id == discountIdSelected,
+                          onChanged: (value) {
+                            setState(() {
+                              discountIdSelected = discount.id!;
+                              context.read<CheckoutBloc>().add(
+                                    CheckoutEvent.addDiscount(
+                                      discount,
+                                    ),
+                                  );
+                            });
+                          },
                         ),
                         onTap: () {
-                          context.pop();
+                          // context.pop();
                         },
                       ),
                     )
