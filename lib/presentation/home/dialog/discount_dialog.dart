@@ -79,6 +79,13 @@ class _DiscountDialogState extends State<DiscountDialog> {
                                     ),
                                   );
                             });
+                            // if (value != null && value) {
+                            //   context.read<CheckoutBloc>().add(
+                            //         CheckoutEvent.addDiscount(
+                            //           discount,
+                            //         ),
+                            //       );
+                            // }
                           },
                         ),
                         onTap: () {

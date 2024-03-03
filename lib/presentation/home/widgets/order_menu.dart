@@ -43,7 +43,7 @@ class OrderMenu extends StatelessWidget {
                       )),
                 ),
                 subtitle: Text(
-                  data.product.price!.toIntegerFromText.currencyFormatRp,
+                  data.product.price!.replaceAll('.00', '').toIntegerFromText.currencyFormatRp,
                   style: const TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w500,
@@ -127,7 +127,7 @@ class OrderMenu extends StatelessWidget {
             SizedBox(
               width: 80.0,
               child: Text(
-                (data.product.price!.toIntegerFromText * data.quantity)
+                (data.product.price!.replaceAll('.00', '').toIntegerFromText * data.quantity)
                     .currencyFormatRp,
                 textAlign: TextAlign.right,
                 style: const TextStyle(

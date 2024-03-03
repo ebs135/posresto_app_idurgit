@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+import 'package:flutter_posresto_app_rudisupratman/presentation/setting/bloc/bloc/add_discount_bloc.dart';
+import 'package:flutter_posresto_app_rudisupratman/presentation/setting/bloc/discount/discount_bloc.dart';
 import '../../../../core/core.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/custom_text_field.dart';
 import '../../../core/components/spaces.dart';
-import '../../home/models/product_category.dart';
+
 import '../models/discount_model.dart';
 
-class FormDiscountDialog extends StatelessWidget {
+class FormDiscountDialog extends StatefulWidget {
   final DiscountModel? data;
   const FormDiscountDialog({super.key, this.data});
 
   @override
+  State<FormDiscountDialog> createState() => _FormDiscountDialogState();
+}
+
+class _FormDiscountDialogState extends State<FormDiscountDialog> {
+  final nameController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final discountController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    final nameController = TextEditingController(text: data?.name ?? '');
-    final codeController = TextEditingController(text: data?.code ?? '');
-    final descriptionController =
-        TextEditingController(text: data?.description ?? '');
-    final discountController =
-        TextEditingController(text: data?.discount.toString() ?? '');
-    final categoryController =
-        ValueNotifier<ProductCategory>(data?.category ?? ProductCategory.food);
     return AlertDialog(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,7 +32,7 @@ class FormDiscountDialog extends StatelessWidget {
             onPressed: () => context.pop(),
             icon: const Icon(Icons.close),
           ),
-          Text(data == null ? 'Tambah Diskon' : 'Edit Diskon'),
+          Text(widget.data == null ? 'Tambah Diskon' : 'Edit Diskon'),
           const Spacer(),
         ],
       ),
@@ -78,16 +80,43 @@ class FormDiscountDialog extends StatelessWidget {
                 ],
               ),
               const SpaceHeight(24.0),
-              Button.filled(
-                onPressed: () {
-                  if (data == null) {
-                    // TODO: do add discount
-                  } else {
-                    // TODO: do edit discount
-                  }
-                  context.pop();
+              BlocConsumer<AddDiscountBloc, AddDiscountState>(
+                listener: (context, state) {
+                  state.maybeWhen(
+                    orElse: () {},
+                    success: () {
+                      context
+                          .read<DiscountBloc>()
+                          .add(const DiscountEvent.getDiscounts());
+                      context.pop();
+                    },
+                  );
                 },
-                label: data == null ? 'Simpan Diskon' : 'Perbarui Diskon',
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () {
+                      return Button.filled(
+                        onPressed: () {
+                          context.read<AddDiscountBloc>().add(
+                                AddDiscountEvent.addDiscount(
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  value: int.parse(discountController.text),
+                                ),
+                              );
+                        },
+                        label: widget.data == null
+                            ? 'Simpan Diskon'
+                            : 'Perbarui Diskon',
+                      );
+                    },
+                    loading: () {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+                },
               )
             ],
           ),

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/bloc/order/order_bloc.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/models/product_quantity.dart';
-
-import '../../../../core/core.dart';
-
+import '../../../presentation/home/bloc/order/order_bloc.dart';
+import '../../../presentation/home/models/product_quantity.dart';
+import '../../../core/core.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
 import '../bloc/checkout/checkout_bloc.dart';
 import '../models/product_category.dart';
 import '../models/product_model.dart';
-
 import '../widgets/order_menu.dart';
 import '../widgets/success_payment_dialog.dart';
 
@@ -223,6 +220,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     (previousValue, element) =>
                                         previousValue +
                                         (element.product.price!
+                                                .replaceAll('.00', '')
                                                 .toIntegerFromText *
                                             element.quantity),
                                   ),
@@ -245,7 +243,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     price - (discount / 100 * price);
                                 final finalTax = subTotal * 0.11;
                                 return Text(
-                                  '$tax % (${finalTax.toInt().currencyFormatRp})',
+                                  '$tax % (${finalTax.toInt().currencyFormatRp.replaceAll('.00', '')})',
                                   style: const TextStyle(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w600,
@@ -287,6 +285,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     (previousValue, element) =>
                                         previousValue +
                                         (element.product.price!
+                                                .replaceAll('.00', '')
                                                 .toIntegerFromText *
                                             element.quantity),
                                   ),
@@ -323,11 +322,12 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                           (previousValue, element) =>
                                               previousValue +
                                               (element.product.price!
+                                                      .replaceAll('.00', '')
                                                       .toIntegerFromText *
                                                   element.quantity),
                                         ));
                                 return Text(
-                                  price.currencyFormatRp,
+                                  price.currencyFormatRp..replaceAll('.00', ''),
                                   style: const TextStyle(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w600,
@@ -359,6 +359,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     (previousValue, element) =>
                                         previousValue +
                                         (element.product.price!
+                                                .replaceAll('.00', '')
                                                 .toIntegerFromText *
                                             element.quantity),
                                   ),
@@ -381,6 +382,7 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                     price - (discount / 100 * price);
                                 final tax = subTotal * 0.11;
                                 final total = subTotal + tax;
+                                // final total = subTotal - discount + tax;
 
                                 totalPriceController.text =
                                     total.ceil().toString();
@@ -498,13 +500,19 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                 Button.filled(
                                   width: 150.0,
                                   onPressed: () {},
-                                  label: 'Rp 250.000',
+                                  label: 'Rp 50.000',
                                 ),
                                 const SpaceWidth(20.0),
                                 Button.filled(
                                   width: 150.0,
                                   onPressed: () {},
-                                  label: 'Rp 300.000',
+                                  label: 'Rp 100.000',
+                                ),
+                                const SpaceWidth(20.0),
+                                Button.filled(
+                                  width: 150.0,
+                                  onPressed: () {},
+                                  label: 'Rp 250.000',
                                 ),
                               ],
                             ),
@@ -543,44 +551,40 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                       },
                                     );
 
-                                    final tax = state.maybeWhen(
-                                  orElse: () => 0,
-                                  loaded: (products, discount, tax,
-                                          serviceCharge) =>
-                                      tax,
-                                );
-                                final price = state.maybeWhen(
-                                  orElse: () => 0,
-                                  loaded: (products, discount, tax,
-                                          serviceCharge) =>
-                                      products.fold(
-                                    0,
-                                    (previousValue, element) =>
-                                        previousValue +
-                                        (element.product.price!
-                                                .toIntegerFromText *
-                                            element.quantity),
-                                  ),
-                                );
+                                    final price = state.maybeWhen(
+                                      orElse: () => 0,
+                                      loaded: (products, discount, tax,
+                                              serviceCharge) =>
+                                          products.fold(
+                                        0,
+                                        (previousValue, element) =>
+                                            previousValue +
+                                            (element.product.price!
+                                                    .replaceAll('.00', '')
+                                                    .toIntegerFromText *
+                                                element.quantity),
+                                      ),
+                                    );
 
-                                // final discount = state.maybeWhen(
-                                //   orElse: () => 0,
-                                //   loaded:
-                                //       (products, discount, tax, serviceCharge) {
-                                //     if (discount == null) {
-                                //       return 0;
-                                //     }
-                                //     return discount.value!
-                                //         .replaceAll('.00', '')
-                                //         .toIntegerFromText;
-                                //   },
-                                // );
+                                    // final discount = state.maybeWhen(
+                                    //   orElse: () => 0,
+                                    //   loaded:
+                                    //       (products, discount, tax, serviceCharge) {
+                                    //     if (discount == null) {
+                                    //       return 0;
+                                    //     }
+                                    //     return discount.value!
+                                    //         .replaceAll('.00', '')
+                                    //         .toIntegerFromText;
+                                    //   },
+                                    // );
 
-                                final subTotal =
-                                    price - (discount / 100 * price);
-                                final finalTax = subTotal * 0.11;
+                                    final subTotal =
+                                        price - ((discount / 100) * price);
+                                    final totalDiscount =
+                                        discount / 100 * price;
+                                    final finalTax = subTotal * 0.11;
 
-                                    
                                     List<ProductQuantity> items =
                                         state.maybeWhen(
                                       orElse: () => [],
@@ -588,6 +592,15 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                               serviceCharge) =>
                                           products,
                                     );
+
+                                    final totalQty = items.fold(
+                                      0,
+                                      (previousValue, element) =>
+                                          previousValue + element.quantity,
+                                    );
+
+                                    final totalPrice = subTotal + finalTax;
+
                                     return Flexible(
                                       child: Button.filled(
                                         onPressed: () async {
@@ -605,7 +618,16 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                             context: context,
                                             barrierDismissible: false,
                                             builder: (context) =>
-                                                const SuccessPaymentDialog(),
+                                                SuccessPaymentDialog(
+                                              data: items,
+                                              totalQty: totalQty,
+                                              totalPrice: totalPrice.toInt(),
+                                              totalTax: finalTax.toInt(),
+                                              totalDiscount:
+                                                  totalDiscount.toInt(),
+                                              subTotal: subTotal.toInt(),
+                                              normalPrice: price,
+                                            ),
                                           );
                                         },
                                         label: 'Bayar',

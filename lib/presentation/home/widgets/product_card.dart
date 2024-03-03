@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_posresto_app_rudisupratman/core/constants/variables.dart';
-
-import 'package:flutter_posresto_app_rudisupratman/data/models/response/product_response_model.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/bloc/checkout/checkout_bloc.dart';
-
-import '../../../../core/core.dart';
+import '../../../core/constants/variables.dart';
+import '../../../data/models/response/product_response_model.dart';
+import '../../../presentation/home/bloc/checkout/checkout_bloc.dart';
+import '../../../core/core.dart';
 import '../../../core/components/spaces.dart';
-import '../../../core/extensions/int_ext.dart';
-import '../../../core/extensions/string_ext.dart';
 
 class ProductCard extends StatelessWidget {
   final Product data;
@@ -90,7 +86,7 @@ class ProductCard extends StatelessWidget {
                     Flexible(
                       child: FittedBox(
                         child: Text(
-                          data.price!.toIntegerFromText.currencyFormatRp,
+                          data.price!.replaceAll('.00', '').toIntegerFromText.currencyFormatRp,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 12,

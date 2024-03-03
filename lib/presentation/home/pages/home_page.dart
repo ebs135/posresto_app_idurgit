@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_posresto_app_rudisupratman/core/core.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/dialog/discount_dialog.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/dialog/service_dialog.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/dialog/tax_dialog.dart';
-
+import '../../../core/core.dart';
+import '../../../presentation/home/dialog/discount_dialog.dart';
+import '../../../presentation/home/dialog/service_dialog.dart';
+import '../../../presentation/home/dialog/tax_dialog.dart';
 import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
-
 import '../bloc/checkout/checkout_bloc.dart';
 import '../bloc/local_product/local_product_bloc.dart';
-
 import '../widgets/column_button.dart';
 import '../widgets/custom_tab_bar.dart';
 import '../widgets/home_title.dart';
-
 import '../widgets/order_menu.dart';
 import '../widgets/product_card.dart';
 import 'confirm_payment_page.dart';
@@ -344,7 +340,7 @@ class _HomePageState extends State<HomePage> {
                                         shrinkWrap: true,
                                         itemCount: products
                                             .where((element) =>
-                                                element.category!.id! == 1)
+                                                element.category!.id! == 3)
                                             .toList()
                                             .length,
                                         physics:
@@ -360,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                                             ProductCard(
                                           data: products
                                               .where((element) =>
-                                                  element.category!.id! == 1)
+                                                  element.category!.id! == 3)
                                               .toList()[index],
                                           onCartButton: () {},
                                         ),
@@ -395,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                                         shrinkWrap: true,
                                         itemCount: products
                                             .where((element) =>
-                                                element.category!.id! == 3)
+                                                element.category!.id! == 4)
                                             .toList()
                                             .length,
                                         physics:
@@ -411,7 +407,7 @@ class _HomePageState extends State<HomePage> {
                                             ProductCard(
                                           data: products
                                               .where((element) =>
-                                                  element.category!.id! == 3)
+                                                  element.category!.id! == 4)
                                               .toList()[index],
                                           onCartButton: () {},
                                         ),
@@ -715,7 +711,7 @@ class _HomePageState extends State<HomePage> {
                                       }
                                       return products
                                           .map((e) =>
-                                              e.product.price!
+                                              e.product.price!.replaceAll('.00', '')
                                                   .toIntegerFromText *
                                               e.quantity)
                                           .reduce((value, element) =>
