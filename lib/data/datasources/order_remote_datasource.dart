@@ -1,6 +1,6 @@
-import 'package:flutter_posresto_app_rudisupratman/core/constants/variables.dart';
-import 'package:flutter_posresto_app_rudisupratman/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_posresto_app_rudisupratman/presentation/home/models/order_model.dart';
+import '../../core/constants/variables.dart';
+import '../../data/datasources/auth_local_datasource.dart';
+import '../../presentation/home/models/order_model.dart';
 import 'package:http/http.dart' as http;
 
 class OrderRemoteDatasource {

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_posresto_app_rudisupratman/core/constants/variables.dart';
-import 'package:flutter_posresto_app_rudisupratman/data/datasources/auth_local_datasource.dart';
-import 'package:flutter_posresto_app_rudisupratman/data/models/response/product_response_model.dart';
+import '../../core/constants/variables.dart';
+import '../../data/datasources/auth_local_datasource.dart';
+import '../../data/models/response/product_response_model.dart';
 import 'package:http/http.dart' as http;
 
 class ProductRemoteDatasource {

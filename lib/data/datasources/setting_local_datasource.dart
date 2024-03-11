@@ -1,4 +1,4 @@
-import 'package:flutter_posresto_app_rudisupratman/presentation/setting/models/tax_model.dart';
+import '../../presentation/setting/models/tax_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingLocalDatasource {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_posresto_app_rudisupratman/core/core.dart';
+import 'package:flutter_posresto_app_rudisupratman/presentation/report/pages/report_page.dart';
 import '../../../presentation/setting/pages/setting_page.dart';
 import '../../../data/datasources/auth_local_datasource.dart';
 import '../../auth/bloc/logout/logout_bloc.dart';
@@ -21,7 +22,8 @@ class _DashboardPageState extends State<DashboardPage> {
   final List<Widget> _pages = [
     const HomePage(),
     // const Center(child: Text('This is page 1')),
-    const Center(child: Text('This is page 2')),
+    // const Center(child: Text('This is page 2')),
+    const ReportPage(),
     const Center(child: Text('This is page 3')),
     // const Center(child: Text('This is page 4')),
     const SettingsPage(),

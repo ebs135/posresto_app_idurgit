@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 import '../../../../data/datasources/auth_local_datasource.dart';
 import '../../../../data/datasources/product_local_datasaource.dart';
 import '../../../../core/core.dart';
@@ -57,7 +58,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         totalItem: totalItem,
         idKasir: userData.user!.id!,
         namaKasir: userData.user!.name!,
-        transactionTime: DateTime.now().toIso8601String(),
+        transactionTime: DateFormat.yMd().format(DateTime.now()),
         isSync: 0,
         orderItems: event.items,
       );
