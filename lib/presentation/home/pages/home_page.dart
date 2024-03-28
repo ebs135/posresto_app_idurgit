@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                             //         .toLowerCase()
                             //         .contains(value.toLowerCase()))
                             //     .toList();
-                            // setState(() {});
+                            setState(() {});
                           },
                         ),
                         const SizedBox(height: 24),
@@ -241,23 +241,41 @@ class _HomePageState extends State<HomePage> {
                                         );
                                       }
                                       return GridView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: products.length,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          childAspectRatio: 0.85,
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 30.0,
-                                          mainAxisSpacing: 30.0,
-                                        ),
-                                        itemBuilder: (context, index) =>
-                                            ProductCard(
-                                          data: products[index],
-                                          onCartButton: () {},
-                                        ),
-                                      );
+                                          shrinkWrap: true,
+                                          itemCount: searchController.text == ''
+                                              ? products.length
+                                              : products
+                                                  .where((element) => element
+                                                      .name!
+                                                      .toLowerCase()
+                                                      .contains(searchController
+                                                          .text))
+                                                  .toList()
+                                                  .length,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          gridDelegate:
+                                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                            childAspectRatio: 0.85,
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 30.0,
+                                            mainAxisSpacing: 30.0,
+                                          ),
+                                          itemBuilder: (context, index) {
+                                            return ProductCard(
+                                              data: searchController.text == ''
+                                                  ? products[index]
+                                                  : products
+                                                      .where((element) => element
+                                                          .name!
+                                                          .toLowerCase()
+                                                          .contains(
+                                                              searchController
+                                                                  .text))
+                                                      .toList()[index],
+                                              onCartButton: () {},
+                                            );
+                                          });
                                     },
                                   );
                                 },
@@ -577,7 +595,8 @@ class _HomePageState extends State<HomePage> {
                                 orElse: () => const Center(
                                   child: Text('No Items'),
                                 ),
-                                loaded: (products, discount, tax, serviceCharge) {
+                                loaded:
+                                    (products, discount, tax, serviceCharge) {
                                   if (products.isEmpty) {
                                     return const Center(
                                       child: Text('No Items'),
@@ -678,7 +697,9 @@ class _HomePageState extends State<HomePage> {
                                       if (discount == null) {
                                         return 0;
                                       }
-                                      return discount.value!.replaceAll('.00', '').toIntegerFromText;
+                                      return discount.value!
+                                          .replaceAll('.00', '')
+                                          .toIntegerFromText;
                                     },
                                   );
                                   return Text(
@@ -711,7 +732,8 @@ class _HomePageState extends State<HomePage> {
                                       }
                                       return products
                                           .map((e) =>
-                                              e.product.price!.replaceAll('.00', '')
+                                              e.product.price!
+                                                  .replaceAll('.00', '')
                                                   .toIntegerFromText *
                                               e.quantity)
                                           .reduce((value, element) =>
@@ -742,7 +764,8 @@ class _HomePageState extends State<HomePage> {
                               horizontal: 24.0, vertical: 16.0),
                           child: Button.filled(
                             onPressed: () {
-                              context.push(const ConfirmPaymentPage());
+                              context
+                                  .push(const ConfirmPaymentPage(total: 0.0));
                             },
                             label: 'Lanjutkan Pembayaran',
                           ),

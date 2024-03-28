@@ -154,14 +154,26 @@ class _ReportPageState extends State<ReportPage> {
                       },
                     );
 
+                    // final discount = state.maybeMap(
+                    //   orElse: () => 0,
+                    //   loaded: (value) {
+                    //     return value.transactionReport.fold(
+                    //       0,
+                    //       (previousValue, element) =>
+                    //           previousValue + element.discount * subTotal,
+                    //     );
+                    //   },
+                    // );
                     final discount = state.maybeMap(
                       orElse: () => 0,
                       loaded: (value) {
                         return value.transactionReport.fold(
-                          0,
-                          (previousValue, element) =>
-                              previousValue + element.discount * subTotal,
-                        );
+                              0,
+                              (previousValue, element) =>
+                                  previousValue + element.discount,
+                            ) *
+                            subTotal /
+                            100;
                       },
                     );
 
@@ -228,7 +240,9 @@ class _ReportPageState extends State<ReportPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text('Discount'),
-                                  Text((discount / 100).toString().replaceAll('.0', '')),
+                                  Text((discount / 100)
+                                      .toString()
+                                      .replaceAll('.', '')),
                                 ],
                               ),
                               const SpaceHeight(4.0),

@@ -1,10 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../presentation/home/bloc/order/order_bloc.dart';
-import '../../../presentation/home/models/product_quantity.dart';
-import '../../../core/core.dart';
+
 import '../../../core/components/buttons.dart';
 import '../../../core/components/spaces.dart';
+import '../../../core/core.dart';
+import '../../../presentation/home/bloc/order/order_bloc.dart';
+import '../../../presentation/home/models/product_quantity.dart';
 import '../bloc/checkout/checkout_bloc.dart';
 import '../models/product_category.dart';
 import '../models/product_model.dart';
@@ -12,7 +14,11 @@ import '../widgets/order_menu.dart';
 import '../widgets/success_payment_dialog.dart';
 
 class ConfirmPaymentPage extends StatefulWidget {
-  const ConfirmPaymentPage({super.key});
+  final double total;
+  const ConfirmPaymentPage({
+    Key? key,
+    required this.total,
+  }) : super(key: key);
 
   @override
   State<ConfirmPaymentPage> createState() => _ConfirmPaymentPageState();
@@ -384,8 +390,8 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                                 final total = subTotal + tax;
                                 // final total = subTotal - discount + tax;
 
-                                totalPriceController.text =
-                                    total.ceil().toString();
+                                // totalPriceController.text =
+                                //     total.ceil().toString();
                                 return Text(
                                   total.ceil().currencyFormatRp,
                                   style: const TextStyle(
@@ -493,26 +499,50 @@ class _ConfirmPaymentPageState extends State<ConfirmPaymentPage> {
                               children: [
                                 Button.filled(
                                   width: 150.0,
-                                  onPressed: () {},
-                                  label: 'UANG PAS',
+                                  onPressed: () {
+                                    totalPriceController.text =
+                                        (totalPriceController
+                                                    .text.toIntegerFromText +
+                                                20000)
+                                            .currencyFormatRp;
+                                  },
+                                  label: 'Rp 20.000',
                                 ),
                                 const SpaceWidth(20.0),
                                 Button.filled(
                                   width: 150.0,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    totalPriceController.text =
+                                        (totalPriceController
+                                                    .text.toIntegerFromText +
+                                                50000)
+                                            .currencyFormatRp;
+                                  },
                                   label: 'Rp 50.000',
                                 ),
                                 const SpaceWidth(20.0),
                                 Button.filled(
                                   width: 150.0,
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    totalPriceController.text =
+                                        (totalPriceController
+                                                    .text.toIntegerFromText +
+                                                100000)
+                                            .currencyFormatRp;
+                                  },
                                   label: 'Rp 100.000',
                                 ),
                                 const SpaceWidth(20.0),
                                 Button.filled(
                                   width: 150.0,
-                                  onPressed: () {},
-                                  label: 'Rp 250.000',
+                                  onPressed: () {
+                                    totalPriceController.text =
+                                        (totalPriceController
+                                                    .text.toIntegerFromText +
+                                                200000)
+                                            .currencyFormatRp;
+                                  },
+                                  label: 'Rp 200.000',
                                 ),
                               ],
                             ),
